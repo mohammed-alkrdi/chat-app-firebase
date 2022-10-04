@@ -22,6 +22,16 @@ class AuthRepositroy {
 
   AuthRepositroy({required this.auth, required this.firestore});
 
+  Future<UserModel?> getCurrentUserData() async {
+    var userData =
+        await firestore.collection('users').doc(auth.currentUser?.uid).get();
+    UserModel? user;
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data()!);
+    }
+    return user;
+  }
+
   void signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
       await auth.verifyPhoneNumber(
@@ -59,7 +69,6 @@ class AuthRepositroy {
       Navigator.pushNamedAndRemoveUntil(
           context, UserInformationScreen.routeName, (route) => false);
     } on FirebaseAuthException catch (e) {
-      ;
       showSnackBar(
         context: context,
         content: e.message!,
@@ -91,7 +100,7 @@ class AuthRepositroy {
         name: name,
         email: email,
         uid: uid,
-        profilPic: photoUrl,
+        profilPic: photoUrl.replaceAll('/', '\\'),
         phoneNumber: auth.currentUser!.uid,
         isOnline: true,
         groupId: [],

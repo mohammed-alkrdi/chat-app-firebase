@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:full_chat_firebase/constances/colors.dart';
-import 'package:full_chat_firebase/screens/chat_screen.dart';
+import 'package:full_chat_firebase/screens/select_contact_screen.dart';
 import 'package:full_chat_firebase/widgets/contact_list.dart';
 import 'package:full_chat_firebase/widgets/custom_text.dart';
 
 import '../widgets/drawer_tile.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -32,7 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 50, horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [],
+                      children: [
+                        Row(),
+                      ],
                     ),
                   ),
                 ),
@@ -132,9 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ContactsList(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ChatScreen(),
-            ));
+            Navigator.pushNamed(context, SelectContactScreen.routeName);
           },
           backgroundColor: LogoImageColor.logoColor4,
           child: const Icon(
