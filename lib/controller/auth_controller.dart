@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:full_chat_firebase/models/user_model.dart';
-import 'package:full_chat_firebase/services/auth_service.dart';
+
+import '../repository/auth_repository.dart';
 
 final authControllerProvider = Provider((ref) {
-  final authRepositroy = ref.watch(authRepositroyProvider);
-  return AuthController(authRepositroy: authRepositroy, ref: ref);
+  final authRepository = ref.watch(authRepositoryProvider);
+  return AuthController(authRepository: authRepository, ref: ref);
 });
 
 final userDataAuthProvider = FutureProvider((ref) {
@@ -16,22 +17,22 @@ final userDataAuthProvider = FutureProvider((ref) {
 });
 
 class AuthController {
-  final AuthRepositroy authRepositroy;
+  final AuthRepository authRepository;
   final ProviderRef ref;
 
-  AuthController({required this.ref, required this.authRepositroy});
+  AuthController({required this.ref, required this.authRepository});
 
   Future<UserModel?> getUserData() async {
-    UserModel? user = await authRepositroy.getCurrentUserData();
+    UserModel? user = await authRepository.getCurrentUserData();
     return user;
   }
 
   void signInWithPhone(BuildContext context, String phoneNumber) {
-    authRepositroy.signInWithPhone(context, phoneNumber);
+    authRepository.signInWithPhone(context, phoneNumber);
   }
 
   void verfiyOTP(BuildContext context, String verificationId, String userOTP) {
-    authRepositroy.verfiyOtp(
+    authRepository.verfiyOtp(
       context: context,
       verificationId: verificationId,
       userOTP: userOTP,
@@ -40,7 +41,7 @@ class AuthController {
 
   void saveUserDataToFirebase(
       BuildContext context, String name, String email, File? profilePic) {
-    authRepositroy.saveUserDataToFirebase(
+    authRepository.saveUserDataToFirebase(
       name: name,
       email: email,
       profilePic: profilePic,

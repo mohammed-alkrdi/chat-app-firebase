@@ -6,6 +6,7 @@ import 'package:full_chat_firebase/widgets/custom_text.dart';
 import '../widgets/chat_list.dart';
 
 class ChatScreen extends StatelessWidget {
+  static const String routeName = 'chat-screen';
   const ChatScreen({Key? key}) : super(key: key);
 
   @override

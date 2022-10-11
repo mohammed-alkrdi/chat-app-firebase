@@ -82,32 +82,34 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                 color: LogoImageColor.logoColor4,
               ),
             ),
-            Stack(
-              children: [
-                image == null
-                    ? const CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage:
-                            AssetImage('assets/images/person-icon-8.png'),
-                      )
-                    : CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: FileImage(image!),
+            SingleChildScrollView(
+              child: Stack(
+                children: [
+                  image == null
+                      ? const CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                              AssetImage('assets/images/person-icon-8.png'),
+                        )
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: FileImage(image!),
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 64,
+                    child: IconButton(
+                      onPressed: selectImage,
+                      icon: const Icon(
+                        Icons.add_a_photo,
+                        color: Colors.black,
                       ),
-                Positioned(
-                  bottom: -10,
-                  left: 64,
-                  child: IconButton(
-                    onPressed: selectImage,
-                    icon: const Icon(
-                      Icons.add_a_photo,
-                      color: Colors.black,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 5,

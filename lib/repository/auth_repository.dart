@@ -11,16 +11,16 @@ import 'package:full_chat_firebase/screens/auth/user_info_screen.dart';
 import 'package:full_chat_firebase/screens/auth/otp_screen.dart';
 import 'package:full_chat_firebase/screens/home_screen.dart';
 
-final authRepositroyProvider = Provider(
-  (ref) => AuthRepositroy(
+final authRepositoryProvider = Provider(
+  (ref) => AuthRepository(
       auth: FirebaseAuth.instance, firestore: FirebaseFirestore.instance),
 );
 
-class AuthRepositroy {
+class AuthRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  AuthRepositroy({required this.auth, required this.firestore});
+  AuthRepository({required this.auth, required this.firestore});
 
   Future<UserModel?> getCurrentUserData() async {
     var userData =
@@ -101,7 +101,7 @@ class AuthRepositroy {
         email: email,
         uid: uid,
         profilPic: photoUrl.replaceAll('/', '\\'),
-        phoneNumber: auth.currentUser!.uid,
+        phoneNumber: auth.currentUser!.phoneNumber!,
         isOnline: true,
         groupId: [],
       );

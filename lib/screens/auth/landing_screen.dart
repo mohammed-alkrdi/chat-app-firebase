@@ -37,7 +37,7 @@ class LandingScreen extends StatelessWidget {
               color: LogoImageColor.logoColor4,
             ),
             const SizedBox(
-              height: 30,
+              height: 50,
             ),
             SizedBox(
               width: size.width * 0.75,

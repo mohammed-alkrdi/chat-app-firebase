@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:full_chat_firebase/screens/auth/login_screen.dart';
 import 'package:full_chat_firebase/screens/auth/user_info_screen.dart';
 import 'package:full_chat_firebase/screens/auth/otp_screen.dart';
+import 'package:full_chat_firebase/screens/chat_screen.dart';
 import 'package:full_chat_firebase/screens/select_contact_screen.dart';
 import 'package:full_chat_firebase/widgets/error.dart';
 
@@ -25,6 +26,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SelectContactScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const SelectContactScreen(),
+      );
+    case ChatScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const ChatScreen(),
       );
     default:
       return MaterialPageRoute(

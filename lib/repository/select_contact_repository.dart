@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:full_chat_firebase/constances/utils.dart';
+import 'package:full_chat_firebase/models/user_model.dart';
+import 'package:full_chat_firebase/screens/chat_screen.dart';
 
 final selectContactRepositoryProvider = Provider(
   (ref) => SelectContactRepository(
@@ -30,7 +32,30 @@ class SelectContactRepository {
   }
 
   void selectContact(Contact selectContact, BuildContext context) async {
-    try {} catch (e) {
+    try {
+      var userCollection = await firestore.collection('users').get();
+      bool isFound = false;
+      for (var document in userCollection.docs) {
+        var userData = UserModel.fromMap(document.data());
+        String selectedPhoneNum = selectContact.phones[0].number.replaceAll(
+          ' ',
+          '',
+        );
+        if (selectedPhoneNum == userData.phoneNumber) {
+          isFound = true;
+          Navigator.pushNamed(
+            context,
+            ChatScreen.routeName,
+          );
+        }
+      }
+      if (!isFound) {
+        showSnackBar(
+          context: context,
+          content: "This number dose not exist on this app ",
+        );
+      }
+    } catch (e) {
       showSnackBar(
         context: context,
         content: e.toString(),
