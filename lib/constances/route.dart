@@ -4,7 +4,7 @@ import 'package:full_chat_firebase/screens/auth/user_info_screen.dart';
 import 'package:full_chat_firebase/screens/auth/otp_screen.dart';
 import 'package:full_chat_firebase/screens/chat_screen.dart';
 import 'package:full_chat_firebase/screens/select_contact_screen.dart';
-import 'package:full_chat_firebase/widgets/error.dart';
+import 'package:full_chat_firebase/widgets/screens/error.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -28,8 +28,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => const SelectContactScreen(),
       );
     case ChatScreen.routeName:
+      final arguments = settings.arguments as Map<String, dynamic>;
+      final name = arguments['name'];
+      final uid = arguments['uid'];
       return MaterialPageRoute(
-        builder: (context) => const ChatScreen(),
+        builder: (context) => ChatScreen(
+          name: name,
+          uid: uid,
+        ),
       );
     default:
       return MaterialPageRoute(

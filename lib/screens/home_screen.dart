@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:full_chat_firebase/constances/colors.dart';
+import 'package:full_chat_firebase/controller/auth_controller.dart';
 import 'package:full_chat_firebase/screens/select_contact_screen.dart';
-import 'package:full_chat_firebase/widgets/contact_list.dart';
+import 'package:full_chat_firebase/widgets/screens/contact_list.dart';
 import 'package:full_chat_firebase/widgets/custom_text.dart';
-
 import '../widgets/drawer_tile.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -17,6 +19,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final postModel = ref.read(userDataAuthProvider).asData;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -24,17 +27,57 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             children: [
               Container(
-                height: 250,
+                height: 200,
                 color: LogoImageColor.logoColor4,
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 50, horizontal: 20),
+                        vertical: 30, horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(),
+                        Stack(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(
+                                right: 200,
+                              ),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    "${postModel?.value!.profilePic.replaceAll('\\', '/')}"),
+                                radius: 38,
+                              ),
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 230, bottom: 50),
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.dark_mode,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CustomText(
+                          text: postModel?.value!.name ?? "",
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CustomText(
+                          text: postModel?.value!.phoneNumber ?? "",
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
                       ],
                     ),
                   ),
@@ -60,10 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   fontSize: 15,
                 ),
                 icon: Icons.person,
-                onPressed: () {
-                  //Get.to(() => const ProfileScreen(),
-                  //transition: Transition.size);
-                },
+                onPressed: () {},
               ),
               DrawerTile(
                 select: true,
@@ -74,10 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   fontSize: 15,
                 ),
                 icon: Icons.settings,
-                onPressed: () {
-                  //Get.to(() => const SettingsScreen(),
-                  //transition: Transition.circularReveal);
-                },
+                onPressed: () {},
               ),
               DrawerTile(
                 select: true,
@@ -96,7 +133,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.white),
           elevation: 0,
-          //backgroundColor: AppColors.appBarColor,
           centerTitle: false,
           title: const CustomText(
             text: "ChatApp",
@@ -105,11 +141,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ))
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ),
           ],
           bottom: const TabBar(
             indicatorColor: Colors.white,

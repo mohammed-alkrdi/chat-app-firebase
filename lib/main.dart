@@ -7,8 +7,8 @@ import 'package:full_chat_firebase/controller/auth_controller.dart';
 import 'package:full_chat_firebase/firebase_options.dart';
 import 'package:full_chat_firebase/screens/auth/landing_screen.dart';
 import 'package:full_chat_firebase/screens/home_screen.dart';
-import 'package:full_chat_firebase/widgets/error.dart';
-import 'package:full_chat_firebase/widgets/loader.dart';
+import 'package:full_chat_firebase/widgets/screens/error.dart';
+import 'package:full_chat_firebase/widgets/screens/loader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

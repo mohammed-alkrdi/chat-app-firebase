@@ -100,7 +100,7 @@ class AuthRepository {
         name: name,
         email: email,
         uid: uid,
-        profilPic: photoUrl.replaceAll('/', '\\'),
+        profilePic: photoUrl.replaceAll('/', '\\'),
         phoneNumber: auth.currentUser!.phoneNumber!,
         isOnline: true,
         groupId: [],
@@ -120,5 +120,13 @@ class AuthRepository {
         content: e.toString(),
       );
     }
+  }
+
+  Stream<UserModel> userData(String userId) {
+    return firestore.collection('users').doc(userId).snapshots().map(
+          (event) => UserModel.fromMap(
+            event.data()!,
+          ),
+        );
   }
 }

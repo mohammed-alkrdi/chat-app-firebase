@@ -45,7 +45,10 @@ class SelectContactRepository {
           isFound = true;
           Navigator.pushNamed(
             context,
-            ChatScreen.routeName,
+            ChatScreen.routeName, arguments: {
+              'name' : userData.name,
+              'uid' : userData.uid,
+          },
           );
         }
       }

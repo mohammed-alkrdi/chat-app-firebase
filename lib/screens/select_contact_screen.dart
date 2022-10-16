@@ -4,8 +4,8 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:full_chat_firebase/controller/select_contact_controller.dart';
 import 'package:full_chat_firebase/widgets/custom_text.dart';
-import 'package:full_chat_firebase/widgets/error.dart';
-import 'package:full_chat_firebase/widgets/loader.dart';
+import 'package:full_chat_firebase/widgets/screens/error.dart';
+import 'package:full_chat_firebase/widgets/screens/loader.dart';
 
 class SelectContactScreen extends ConsumerWidget {
   static const String routeName = 'select-contact';

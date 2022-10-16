@@ -1,24 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:full_chat_firebase/constances/colors.dart';
-import 'package:full_chat_firebase/constances/info.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:full_chat_firebase/controller/auth_controller.dart';
+import 'package:full_chat_firebase/models/user_model.dart';
 import 'package:full_chat_firebase/widgets/custom_text.dart';
+import 'package:full_chat_firebase/widgets/screens/loader.dart';
 
-import '../widgets/chat_list.dart';
+import '../widgets/button_chat_field.dart';
+import '../widgets/screens/chat_list.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends ConsumerWidget {
   static const String routeName = 'chat-screen';
-  const ChatScreen({Key? key}) : super(key: key);
+  final String name;
+  final String uid;
+
+  const ChatScreen({Key? key, required this.name, required this.uid})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: AppColors.appBarColor,
         centerTitle: false,
-        //elevation: 0,
-        title: CustomText(
-          text: info[0]['name'].toString(),
-          fontSize: 20,
+        title: StreamBuilder<UserModel>(
+          stream: ref.read(authControllerProvider).userDataById(uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Loader();
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  text: name,
+                  fontSize: 20,
+                ),
+                CustomText(
+                  text: snapshot.data!.isOnline ? 'online' : 'offline',
+                  fontSize: 13,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.normal,
+                ),
+              ],
+            );
+          },
         ),
         actions: [
           IconButton(
@@ -36,59 +60,16 @@ class ChatScreen extends StatelessWidget {
         ],
       ),
       body: Column(
-        children: const [
+        children: [
           Expanded(
-            child: ChatList(),
+            child: ChatList(
+              receiverUserId: uid,
+            ),
+          ),
+          ButtonChatField(
+            receiverUserId: uid,
           ),
         ],
-      ),
-      bottomNavigationBar: TextFormField(
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: LogoImageColor.logoColor4,
-          prefixIcon: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Icon(
-              Icons.emoji_emotions,
-              color: Colors.white,
-            ),
-          ),
-          suffixIcon: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Icon(
-                  Icons.camera_alt,
-                  color: Colors.white,
-                ),
-                Icon(
-                  Icons.attach_file,
-                  color: Colors.white,
-                ),
-                Icon(
-                  Icons.money,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-          ),
-          hintText: 'Message',
-          hintStyle: const TextStyle(color: Colors.white, fontSize: 12),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          contentPadding: const EdgeInsets.all(10),
-        ),
-        onChanged: (value) {},
-        validator: (value) {},
       ),
     );
   }
